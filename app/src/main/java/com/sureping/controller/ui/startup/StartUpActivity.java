@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.sureping.controller.R;
-import com.sureping.controller.base.BaseActivity;
+import com.sureping.controller.base.cycle.BaseActivity;
 import com.sureping.controller.ui.home.HomeActivity;
 
 /**
