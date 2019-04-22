@@ -2,7 +2,9 @@ package com.sureping.controller.ui;
 
 import android.app.Application;
 
+import com.pgyersdk.crash.PgyCrashManager;
 import com.sureping.controller.base.util.MsgConfig;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.HashMap;
 
@@ -19,6 +21,7 @@ public class ControllerApplication extends Application {
         super.onCreate();
         instance = this;
         config = new MsgConfig();
+
     }
 
     public static MsgConfig getConfig() {

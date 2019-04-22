@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.sureping.controller.BR;
 import com.sureping.controller.ui.ControllerApplication;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 /**
  * @author sureping
@@ -18,13 +19,16 @@ import com.sureping.controller.ui.ControllerApplication;
  */
 public abstract class BaseActivity<DataBinding extends ViewDataBinding> extends AppCompatActivity {
     protected abstract int getViewLayout();
+
     protected DataBinding dataBinding;
+    protected RxPermissions rxPermissions;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataBinding = DataBindingUtil.setContentView(this,getViewLayout());
-        dataBinding.setVariable(BR.vm,this);
+        dataBinding = DataBindingUtil.setContentView(this, getViewLayout());
+        dataBinding.setVariable(BR.vm, this);
+        rxPermissions = new RxPermissions(this);
     }
 
     public DataBinding getDataBinding() {
@@ -34,7 +38,8 @@ public abstract class BaseActivity<DataBinding extends ViewDataBinding> extends 
     public void toast(String var1) {
         Toast.makeText(ControllerApplication.getInstance(), var1, Toast.LENGTH_SHORT).show();
     }
-    public void toast(Throwable throwable){
+
+    public void toast(Throwable throwable) {
         toast(throwable.getMessage());
     }
 }
