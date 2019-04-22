@@ -11,17 +11,23 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.sureping.controller.R;
+import com.sureping.controller.base.config.Configuration;
 import com.sureping.controller.base.cycle.BaseFragment;
 import com.sureping.controller.base.msg.EventMsg;
 import com.sureping.controller.databinding.FragmentBlueConnectBinding;
 import com.sureping.controller.ui.ControllerApplication;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.sureping.controller.base.msg.EventMsg.KEY_OPEN_BLUETOOTH;
+import static com.sureping.controller.base.msg.EventMsg.KEY_OPEN_BLUETOOTH_RESULT;
 
 
 /**
@@ -35,14 +41,11 @@ public class ConnectBlueToothFragment extends BaseFragment<FragmentBlueConnectBi
     private Spinner spinner;
 
     protected void connect() {
-        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (bluetoothAdapter == null) {
             return;
         }
-        int REQUEST_ENABLE_BT = 1;
         if (!bluetoothAdapter.isEnabled()) {
-            Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(intent, REQUEST_ENABLE_BT);
+            EventBus.getDefault().post(new EventMsg(KEY_OPEN_BLUETOOTH));
         } else {
             deviceList();
         }
@@ -53,7 +56,17 @@ public class ConnectBlueToothFragment extends BaseFragment<FragmentBlueConnectBi
         super.startActivityForResult(intent, requestCode);
 //        connect();
     }
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void openResult(EventMsg eventMsg){
+        if (eventMsg.getCode() ==EventMsg.KEY_OPEN_BLUETOOTH_RESULT){
+            if (bluetoothAdapter == null) {
+                return;
+            }
+            if (bluetoothAdapter.isEnabled()) {
+                deviceList();
+            }
+        }
+    }
     protected void deviceList() {
         List<String> deviceName = new ArrayList<>();
         for (BluetoothDevice device : bluetoothAdapter.getBondedDevices()) {
@@ -73,13 +86,16 @@ public class ConnectBlueToothFragment extends BaseFragment<FragmentBlueConnectBi
     }
 
     protected void init() {
+        super.init();
         spinner = getDataBinding().spinner;
         devices = new HashMap<>();
+        bluetoothAdapter = Configuration.adapter;
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (view instanceof TextView) {
                     ControllerApplication.getConfig().setSelectDevice(devices.get(((TextView) view).getText()));
+                    Configuration.beConnDevice = ControllerApplication.getConfig().getSelectDevice();
                 }
             }
 

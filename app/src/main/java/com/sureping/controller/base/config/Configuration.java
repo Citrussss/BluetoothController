@@ -42,7 +42,11 @@ public class Configuration {
     public static BluetoothDevice beConnDevice = null;
     public static String isSaved = "isSaved";
     public static String preferencesName = "KevinSetup";
-
+    public static byte left_s =   0x03;
+    public static byte top_s =    0x01;
+    public static byte right_s =  0x04;
+    public static byte bottom_s = 0x02;
+    public static byte bt_bg =    0x00;
     public Configuration() {
     }
 }

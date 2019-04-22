@@ -3,34 +3,49 @@ package com.sureping.controller.ui.home;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.sureping.controller.R;
 import com.sureping.controller.base.config.Configuration;
 import com.sureping.controller.base.cycle.BaseFragment;
 import com.sureping.controller.base.msg.EventMsg;
+import com.sureping.controller.databinding.FragmentBlueConnectBinding;
+import com.sureping.controller.databinding.FragmentBlueControllerBinding;
 import com.sureping.controller.ui.ControllerApplication;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import io.reactivex.disposables.Disposable;
+
+import static com.sureping.controller.base.msg.EventMsg.KEY_OPEN_BLUETOOTH;
+
 /**
  * @author sureping
  * @create 19-4-21.
  */
-public class ControllerFragment extends BaseFragment {
+public class ControllerFragment extends BaseFragment<FragmentBlueControllerBinding> {
     private BluetoothDevice device;
     private BluetoothAdapter adapter;
     public ObservableField<String> controlStatusText = new ObservableField<>("未连接");
+    public ObservableBoolean connectOb = new ObservableBoolean(false);
     private ConnectedThread connectedThread = null;
     private ConnectThread connectThread = null;
+    private int REQUEST_ENABLE_BT = 1;
 
     @Override
     protected int getViewLayout() {
@@ -44,6 +59,7 @@ public class ControllerFragment extends BaseFragment {
     @Override
     protected void init() {
         super.init();
+        adapter = Configuration.adapter;
         device = ControllerApplication.getConfig().getSelectDevice();
     }
 
@@ -84,7 +100,6 @@ public class ControllerFragment extends BaseFragment {
                 Message var2 = viewHandler.obtainMessage();
                 var2.obj = -2;
                 viewHandler.sendMessage(var2);
-
                 try {
                     this.mmSocket.close();
                     var1.printStackTrace();
@@ -216,5 +231,92 @@ public class ControllerFragment extends BaseFragment {
             this.connectThread = null;
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void openResult(EventMsg eventMsg) {
+        if (eventMsg.getCode() == EventMsg.KEY_OPEN_BLUETOOTH_RESULT) {
+            if (adapter == null) {
+                return;
+            }
+            if (!this.adapter.isEnabled()) {
+                this.toast("打开蓝牙失败");
+                connectOb.set(false);
+                return;
+            }
+            connectOb.set(true);
+            toast("打开蓝牙成功");
+            controlStatusText.set("正在连接设备中");
+            if (this.connectThread == null) {
+                this.connectThread = new ConnectThread(Configuration.beConnDevice);
+            }
+            this.connectThread.start();
+        }
+    }
+
+    public void OpenBluetooth() {
+        if (this.adapter != null) {
+            if (!adapter.isEnabled()) {
+                EventBus.getDefault().post(new EventMsg(KEY_OPEN_BLUETOOTH));
+            }
+        } else {
+            connectOb.set(false);
+            this.toast("您的手机不支持蓝牙");
+        }
+    }
+
+    public void onOpenClick(View view) {
+        if (!connectOb.get()) {
+            connectOb.set(true);
+            OpenBluetooth();
+        } else {
+            this.adapter.disable();
+            this.setNULL();
+            this.toast("蓝牙已被您关闭");
+            connectOb.set(false);
+        }
+    }
+    public void onClick(View view){
+        byte code = 0x0;
+        switch (view.getId()){
+            case R.id.left_s: code = Configuration.left_s;
+            case R.id.top_s: code =Configuration.top_s;
+            case R.id.right_s: code = Configuration.right_s;
+            case R.id.bottom_s: code =Configuration.bottom_s;
+            case R.id.bt_bg: code =Configuration.bt_bg;
+            default:
+        }
+        try {
+            connectedThread.write(new byte[]{code});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onPause() {
+        if (this.connectedThread != null) {
+            this.connectThread.cancel();
+            this.connectThread = null;
+        }
+
+        if (this.connectedThread != null) {
+            try {
+                this.connectedThread.write(Configuration.STOP.getBytes());
+            } catch (Exception var2) {
+                Message var1 = this.viewHandler.obtainMessage();
+                var1.obj = -1;
+                this.viewHandler.sendMessage(var1);
+            }
+
+            this.connectedThread.cancel();
+            this.connectedThread = null;
+        }
+
+        super.onPause();
+    }
+    public void onResume() {
+        super.onResume();
+        this.connectThread = new ConnectThread(Configuration.beConnDevice);
+        this.connectThread.start();
     }
 }

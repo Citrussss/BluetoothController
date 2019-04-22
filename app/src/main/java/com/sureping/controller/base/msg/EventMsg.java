@@ -1,5 +1,7 @@
 package com.sureping.controller.base.msg;
 
+import io.reactivex.functions.Consumer;
+
 /**
  * Rabies
  *
@@ -9,6 +11,8 @@ package com.sureping.controller.base.msg;
  */
 public class EventMsg {
     int code ;
+    public static final int KEY_OPEN_BLUETOOTH = 10001;
+    public static final int KEY_OPEN_BLUETOOTH_RESULT = 10002;
 
     public EventMsg(int code) {
         this.code = code;
@@ -21,4 +25,5 @@ public class EventMsg {
     public void setCode(int code) {
         this.code = code;
     }
+
 }
