@@ -3,6 +3,7 @@ package com.sureping.controller.ui.home;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,8 +13,11 @@ import android.widget.TextView;
 
 import com.sureping.controller.R;
 import com.sureping.controller.base.cycle.BaseFragment;
+import com.sureping.controller.base.msg.EventMsg;
 import com.sureping.controller.databinding.FragmentBlueConnectBinding;
 import com.sureping.controller.ui.ControllerApplication;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,5 +97,9 @@ public class ConnectBlueToothFragment extends BaseFragment<FragmentBlueConnectBi
 
     public void onConnectClick(View view){
         connect();
+    }
+
+    public void onControlClick(View view){
+        EventBus.getDefault().post(new EventMsg(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE));
     }
 }

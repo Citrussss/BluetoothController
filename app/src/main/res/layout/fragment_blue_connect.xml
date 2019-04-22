@@ -11,23 +11,29 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:onClick="@{vm::onConnectClick}"
-            android:text="发起连接" />
+            android:text="开启蓝牙" />
 
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:paddingLeft="17dp"
             android:paddingRight="17dp"
             android:textSize="10sp" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{vm::onControlClick}"
+            android:text="前去操控" />
     </LinearLayout>
 </layout>
