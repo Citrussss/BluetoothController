@@ -24,4 +24,8 @@ public class ControllerApplication extends Application {
     public static MsgConfig getConfig() {
         return instance.config;
     }
+
+    public static ControllerApplication getInstance() {
+        return instance;
+    }
 }

@@ -23,5 +23,6 @@ public class StartUpActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Intent intent =new Intent(this, HomeActivity.class);
         startActivity(intent);
+        finish();
     }
 }
