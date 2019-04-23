@@ -11,8 +11,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.pgyersdk.crash.PgyCrashManager;
 import com.sureping.controller.R;
 import com.sureping.controller.base.config.Configuration;
 import com.sureping.controller.base.cycle.BaseFragment;
@@ -46,7 +48,7 @@ public class ControllerFragment extends BaseFragment<FragmentBlueControllerBindi
     private ConnectedThread connectedThread = null;
     private ConnectThread connectThread = null;
     private int REQUEST_ENABLE_BT = 1;
-
+    public ObservableField<String> debugValue =new ObservableField<>("");
     @Override
     protected int getViewLayout() {
         return R.layout.fragment_blue_controller;
@@ -277,19 +279,28 @@ public class ControllerFragment extends BaseFragment<FragmentBlueControllerBindi
         }
     }
     public void onClick(View view){
-        byte code = 0x0;
+        byte[] code = new byte[]{0x0,0x0};
         switch (view.getId()){
-            case R.id.left_s: code = Configuration.left_s;
-            case R.id.top_s: code =Configuration.top_s;
-            case R.id.right_s: code = Configuration.right_s;
-            case R.id.bottom_s: code =Configuration.bottom_s;
-            case R.id.bt_bg: code =Configuration.bt_bg;
+            case R.id.left_s: code[1] = Configuration.left_s;break;
+            case R.id.top_s: code[1] =Configuration.top_s;break;
+            case R.id.right_s: code[1] = Configuration.right_s;break;
+            case R.id.bottom_s: code[1] =Configuration.bottom_s;break;
+            case R.id.bt_bg: code[1] =Configuration.bt_bg;break;
             default:
+                if (!TextUtils.isEmpty(debugValue.get())){
+                    try {
+                        connectedThread.write(debugValue.get().getBytes());
+                    } catch (Exception e) {
+                        PgyCrashManager.reportCaughtException(e);
+                    }
+                }else {
+                    toast("debug值不能为空");
+                }
         }
         try {
-            connectedThread.write(new byte[]{code});
+            connectedThread.write(code);
         } catch (Exception e) {
-            e.printStackTrace();
+            PgyCrashManager.reportCaughtException(e);
         }
     }
 

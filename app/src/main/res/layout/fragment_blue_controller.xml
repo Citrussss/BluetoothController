@@ -130,6 +130,25 @@
             app:layout_constraintStart_toStartOf="@+id/bt_bg"
             app:layout_constraintTop_toBottomOf="@+id/bt_bg" />
 
+        <EditText
+            android:id="@+id/debug"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginEnd="8dp"
+            android:hint="DEBUG输入区"
+            android:text="@={vm.debugValue}"
+            app:layout_constraintBottom_toBottomOf="@+id/connect_switch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/connect_switch" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="发送debug值"
+            android:onClick="@{vm::onClick}"
+            app:layout_constraintEnd_toEndOf="@+id/debug"
+            app:layout_constraintStart_toStartOf="@+id/debug"
+            app:layout_constraintTop_toBottomOf="@+id/debug" />
     </android.support.constraint.ConstraintLayout>
 </layout>
