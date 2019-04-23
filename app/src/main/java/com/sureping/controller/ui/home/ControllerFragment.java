@@ -34,6 +34,7 @@ import java.io.OutputStream;
 
 import io.reactivex.disposables.Disposable;
 
+import static com.sureping.controller.base.config.Configuration.bt_bg;
 import static com.sureping.controller.base.msg.EventMsg.KEY_OPEN_BLUETOOTH;
 
 /**
@@ -279,13 +280,13 @@ public class ControllerFragment extends BaseFragment<FragmentBlueControllerBindi
         }
     }
     public void onClick(View view){
-        byte[] code = new byte[]{0x0,0x0};
+        byte[] code = bt_bg;
         switch (view.getId()){
-            case R.id.left_s: code[1] = Configuration.left_s;break;
-            case R.id.top_s: code[1] =Configuration.top_s;break;
-            case R.id.right_s: code[1] = Configuration.right_s;break;
-            case R.id.bottom_s: code[1] =Configuration.bottom_s;break;
-            case R.id.bt_bg: code[1] =Configuration.bt_bg;break;
+            case R.id.left_s: code = Configuration.left_s;break;
+            case R.id.top_s: code=Configuration.top_s;break;
+            case R.id.right_s: code = Configuration.right_s;break;
+            case R.id.bottom_s: code =Configuration.bottom_s;break;
+            case R.id.bt_bg: code = bt_bg;break;
             default:
                 if (!TextUtils.isEmpty(debugValue.get())){
                     try {

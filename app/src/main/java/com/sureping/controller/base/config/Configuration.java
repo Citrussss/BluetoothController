@@ -7,6 +7,7 @@ package com.sureping.controller.base.config;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+
 import java.util.UUID;
 
 public class Configuration {
@@ -42,11 +43,13 @@ public class Configuration {
     public static BluetoothDevice beConnDevice = null;
     public static String isSaved = "isSaved";
     public static String preferencesName = "KevinSetup";
-    public static byte left_s =   0x03;
-    public static byte top_s =    0x01;
-    public static byte right_s =  0x04;
-    public static byte bottom_s = 0x02;
-    public static byte bt_bg =    0x00;
+    public static byte[] bt_bg = new byte[]{(byte) 0xFF, 0x00, 0x01, 0x00, (byte) 0xFF};
+    public static byte[] top_s = new byte[]{(byte) 0xFF, 0x00, 0x02, 0x00, (byte) 0xFF};
+    public static byte[] bottom_s = new byte[]{(byte) 0xFF, 0x00, 0x03, 0x00, (byte) 0xFF};
+    public static byte[] left_s = new byte[]{(byte) 0xFF, 0x00, 0x04, 0x00, (byte) 0xFF};
+    public static byte[] right_s = new byte[]{(byte) 0xFF, 0x00, 0x05, 0x00, (byte) 0xFF};
+
+
     public Configuration() {
     }
 }
