@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.sureping.controller.recycle.BlueToothEntity" />
+            type="com.sureping.controller.base.recycle.BlueToothEntity" />
     </data>
 
     <android.support.constraint.ConstraintLayout

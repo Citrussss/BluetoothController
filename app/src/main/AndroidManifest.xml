@@ -31,9 +31,21 @@
         </activity>
         <activity android:name=".ui.home.HomeActivity"
             android:configChanges="orientation|keyboardHidden"/>
+        <activity android:name=".base.util.FileViewManager" />
+
         <meta-data
             android:name="PGYER_APPID"
             android:value="98ec4e5e10534909eeeb9b4128e5dc50" >
         </meta-data>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.filterProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/images_url" />
+        </provider>
     </application>
 </manifest>

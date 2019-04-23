@@ -16,8 +16,8 @@ import com.sureping.controller.base.config.Configuration;
 import com.sureping.controller.base.cycle.BaseFragment;
 import com.sureping.controller.base.msg.EventMsg;
 import com.sureping.controller.databinding.FragmentBlueConnectBinding;
-import com.sureping.controller.recycle.BlueToothEntity;
-import com.sureping.controller.recycle.RecycleAdapter;
+import com.sureping.controller.base.recycle.BlueToothEntity;
+import com.sureping.controller.base.recycle.RecycleAdapter;
 import com.sureping.controller.ui.ControllerApplication;
 
 import org.greenrobot.eventbus.EventBus;
@@ -158,4 +158,5 @@ public class ConnectBlueToothFragment extends BaseFragment<FragmentBlueConnectBi
         this.toast("蓝牙已被您关闭");
         connectOb.set(false);
     }
+
 }

@@ -25,10 +25,11 @@ public abstract class BaseActivity<DataBinding extends ViewDataBinding> extends 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        rxPermissions = new RxPermissions(this);
         super.onCreate(savedInstanceState);
+        if (getViewLayout()==0)return;
         dataBinding = DataBindingUtil.setContentView(this, getViewLayout());
         dataBinding.setVariable(BR.vm, this);
-        rxPermissions = new RxPermissions(this);
     }
 
     public DataBinding getDataBinding() {

@@ -1,4 +1,4 @@
-package com.sureping.controller.recycle;
+package com.sureping.controller.base.recycle;
 
 import android.bluetooth.BluetoothDevice;
 import android.view.View;

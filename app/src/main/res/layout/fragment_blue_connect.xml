@@ -38,7 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:alpha="0.5"
-            android:background="@mipmap/main_bg1" />
+            android:background="@mipmap/main_bg1"
+            android:scaleType="centerCrop"
+            android:src="@{vm.bgSrc}" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycle_view"
@@ -61,8 +63,8 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/btn_select"
-            android:onClick="@{vm::onControlClick}"
-            android:text="搜索"
+            android:onClick="@{vm::onSelectFileClick}"
+            android:text="更换背景"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"

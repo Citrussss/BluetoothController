@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.pgyersdk.crash.PgyCrashManager;
@@ -283,7 +284,45 @@ public class ControllerFragment extends BaseFragment<FragmentBlueControllerBindi
         this.toast("蓝牙已被您关闭");
         connectOb.set(false);
     }
-
+    public boolean onTouch(View v, MotionEvent event){
+        int action = event.getAction();
+        switch (action){
+            case MotionEvent.ACTION_DOWN:
+                toast("ACTION_DOWN");
+                onClick(v);return true;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_UP:
+            case MotionEvent.ACTION_CANCEL:
+                toast("ACTION_UP");
+                try {
+                    connectedThread.write(Configuration.bt_bg);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }return true;
+        }
+        return false;
+    }
+    public boolean onFunctionKeyTouch(View v, MotionEvent event){
+        int action = event.getAction();
+        switch (action){
+            case MotionEvent.ACTION_DOWN:
+                toast("ACTION_DOWN");
+                onClick(v);return true;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_UP:
+            case MotionEvent.ACTION_CANCEL:
+                toast("ACTION_UP");
+                try {
+                    switch (v.getId()){
+                        case R.id.light:connectedThread.write(Configuration.close_light);break;
+                        case R.id.sound:connectedThread.write(Configuration.close_bee);break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }return true;
+        }
+        return false;
+    }
     public void onClick(View view){
         byte[] code = bt_bg;
         switch (view.getId()){
@@ -291,7 +330,9 @@ public class ControllerFragment extends BaseFragment<FragmentBlueControllerBindi
             case R.id.top_s: code=Configuration.top_s;break;
             case R.id.right_s: code = Configuration.right_s;break;
             case R.id.bottom_s: code =Configuration.bottom_s;break;
-            case R.id.bt_bg: code = bt_bg;break;
+            case R.id.bt_bg: code = Configuration.bt_bg;break;
+            case R.id.light:code = Configuration.open_light;break;
+            case R.id.sound:code = Configuration.open_bee;break;
             default:
                 if (!TextUtils.isEmpty(debugValue.get())){
                     try {
@@ -336,7 +377,6 @@ public class ControllerFragment extends BaseFragment<FragmentBlueControllerBindi
         this.connectThread = new ConnectThread(Configuration.beConnDevice);
         this.connectThread.start();
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();

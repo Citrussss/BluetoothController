@@ -1,6 +1,5 @@
-package com.sureping.controller.recycle;
+package com.sureping.controller.base.recycle;
 
-import android.bluetooth.BluetoothDevice;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
