@@ -273,12 +273,17 @@ public class ControllerFragment extends BaseFragment<FragmentBlueControllerBindi
             connectOb.set(true);
             OpenBluetooth();
         } else {
-            this.adapter.disable();
-            this.setNULL();
-            this.toast("蓝牙已被您关闭");
-            connectOb.set(false);
+            close();
         }
     }
+
+    private void close() {
+        this.adapter.disable();
+        this.setNULL();
+        this.toast("蓝牙已被您关闭");
+        connectOb.set(false);
+    }
+
     public void onClick(View view){
         byte[] code = bt_bg;
         switch (view.getId()){
@@ -330,5 +335,11 @@ public class ControllerFragment extends BaseFragment<FragmentBlueControllerBindi
         super.onResume();
         this.connectThread = new ConnectThread(Configuration.beConnDevice);
         this.connectThread.start();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        close();
     }
 }
