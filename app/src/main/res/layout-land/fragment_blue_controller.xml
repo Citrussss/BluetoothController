@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.sureping.controller.ui.home.ControllerFragment" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_gray">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:onClick="@{vm::onBackClick}"
+            android:text="返回"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="@+id/textView" />
+
+        <CheckBox
+            android:id="@+id/connect_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="36dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:button="@drawable/connect_switch"
+            android:checked="@{vm.connectOb}"
+            android:onClick="@{vm::onOpenClick}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@{vm.controlStatusText}"
+            app:layout_constraintBottom_toTopOf="@+id/connect_switch"
+            app:layout_constraintEnd_toEndOf="@+id/connect_switch"
+            app:layout_constraintStart_toStartOf="@+id/connect_switch"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="未连接" />
+
+
+        <TextView
+            android:id="@+id/top_s"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#00BCD4"
+            android:gravity="center"
+            android:onClick="@{vm::onClick}"
+            android:src="@drawable/tt_bt_switch"
+            android:text="up"
+            app:layout_constraintBottom_toTopOf="@+id/bt_bg"
+            app:layout_constraintEnd_toEndOf="@+id/bt_bg"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/bt_bg" />
+
+
+        <TextView
+            android:id="@+id/left_s"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#00BCD4"
+            android:gravity="center"
+            android:onClick="@{vm::onClick}"
+            android:src="@drawable/ll_bt_switch"
+            android:text="left"
+            app:layout_constraintBottom_toBottomOf="@+id/bt_bg"
+            app:layout_constraintEnd_toStartOf="@+id/bt_bg"
+            app:layout_constraintTop_toTopOf="@+id/bt_bg" />
+
+        <TextView
+            android:id="@+id/bt_bg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#333"
+            android:gravity="center"
+            android:onClick="@{vm::onClick}"
+            android:src="@drawable/tt_bt_switch"
+            android:text="up"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/connect_switch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/right_s"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#00BCD4"
+            android:gravity="center"
+            android:onClick="@{vm::onClick}"
+            android:src="@drawable/rr_bt_switch"
+            android:text="right"
+            app:layout_constraintBottom_toBottomOf="@+id/bt_bg"
+            app:layout_constraintStart_toEndOf="@+id/bt_bg"
+            app:layout_constraintTop_toTopOf="@+id/bt_bg" />
+
+
+        <TextView
+            android:id="@+id/bottom_s"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="#00BCD4"
+            android:gravity="center"
+            android:onClick="@{vm::onClick}"
+            android:src="@drawable/bb_bt_switch"
+            android:text="down"
+            app:layout_constraintEnd_toEndOf="@+id/bt_bg"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/bt_bg"
+            app:layout_constraintTop_toBottomOf="@+id/bt_bg" />
+
+        <EditText
+            android:id="@+id/debug"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginEnd="8dp"
+            android:hint="DEBUG输入区"
+            android:text="@={vm.debugValue}"
+            app:layout_constraintBottom_toBottomOf="@+id/connect_switch"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/connect_switch" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="发送debug值"
+            android:onClick="@{vm::onClick}"
+            app:layout_constraintEnd_toEndOf="@+id/debug"
+            app:layout_constraintStart_toStartOf="@+id/debug"
+            app:layout_constraintTop_toBottomOf="@+id/debug" />
+    </android.support.constraint.ConstraintLayout>
+</layout>
