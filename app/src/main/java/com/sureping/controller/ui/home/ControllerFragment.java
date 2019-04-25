@@ -288,12 +288,10 @@ public class ControllerFragment extends BaseFragment<FragmentBlueControllerBindi
         int action = event.getAction();
         switch (action){
             case MotionEvent.ACTION_DOWN:
-                toast("ACTION_DOWN");
                 onClick(v);return true;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
             case MotionEvent.ACTION_CANCEL:
-                toast("ACTION_UP");
                 try {
                     connectedThread.write(Configuration.bt_bg);
                 } catch (Exception e) {
@@ -306,12 +304,10 @@ public class ControllerFragment extends BaseFragment<FragmentBlueControllerBindi
         int action = event.getAction();
         switch (action){
             case MotionEvent.ACTION_DOWN:
-                toast("ACTION_DOWN");
                 onClick(v);return true;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
             case MotionEvent.ACTION_CANCEL:
-                toast("ACTION_UP");
                 try {
                     switch (v.getId()){
                         case R.id.light:connectedThread.write(Configuration.close_light);break;
